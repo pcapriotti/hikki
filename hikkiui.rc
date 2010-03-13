@@ -1,0 +1,30 @@
+<!DOCTYPE kpartgui SYSTEM 'kpartgui.dtd'>
+<kpartgui version="17" name="hikki" >
+ <MenuBar>
+  <Menu name="file" >
+   <Action name="edit_mode" />
+   <Action name="display_mode" />
+  </Menu>
+  <Menu name="go" >
+   <Text>&amp;Go</Text>
+   <Action name="back" />
+   <Action name="forward" />
+   <Action name="home" />
+  </Menu>
+  <Menu name="bookmarks" />
+  <Menu name="tools" />
+  <Merge/>
+  <Menu name="help" />
+ </MenuBar>
+ <ActionProperties scheme="Default" >
+  <Action shortcut="Alt+2" name="display_mode" />
+  <Action shortcut="Alt+1" name="edit_mode" />
+ </ActionProperties>
+ <ToolBar noMerge="1" name="mainToolBar" >
+  <Action name="edit_mode" />
+  <Action name="display_mode" />
+  <Action name="go_home" />
+  <Action name="go_back" />
+  <Action name="go_forward" />
+ </ToolBar>
+</kpartgui>
