@@ -36,6 +36,7 @@
 #include <QApplication>
 
 #include "webkitpart.h"
+#include "proxyaction.h"
 
 using namespace KTextEditor;
 
@@ -90,26 +91,52 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupActions()
 {
-  KAction* editMode = new KAction(
-    KIcon("document-edit"),
-    i18n("&Edit mode"),
-    this);
-  actionCollection()->addAction("edit_mode", editMode);
-  connect(editMode, SIGNAL(triggered()),
-          this, SLOT(editMode()));
-          
-  KAction* displayMode = new KAction(
-    KIcon("document-preview"),
-    i18n("&Display mode"),
-    this);
-  actionCollection()->addAction("display_mode", displayMode);
-  connect(displayMode, SIGNAL(triggered()),
-          this, SLOT(displayMode()));
-          
-  actionCollection()->addAction("go_back",
-    m_browser->view()->pageAction(QWebPage::Back));
-  actionCollection()->addAction("go_forward",
-    m_browser->view()->pageAction(QWebPage::Forward));
+  {
+    KAction* editMode = new KAction(
+      KIcon("document-edit"),
+      i18n("&Edit mode"),
+      this);
+    actionCollection()->addAction("edit_mode", editMode);
+    connect(editMode, SIGNAL(triggered()),
+            this, SLOT(editMode()));
+  }
+   
+  {
+    KAction* displayMode = new KAction(
+      KIcon("document-preview"),
+      i18n("&Display mode"),
+      this);
+    actionCollection()->addAction("display_mode", displayMode);
+    connect(displayMode, SIGNAL(triggered()),
+            this, SLOT(displayMode()));
+  }
+  
+  {
+    QAction* webBack = m_browser->view()->pageAction(QWebPage::Back);
+    KAction* back = new ProxyAction(webBack, this);
+    actionCollection()->addAction("back", back);
+  }
+  
+  {
+    QAction* webForward = m_browser->view()->pageAction(QWebPage::Forward);
+    KAction* forward = new ProxyAction(webForward, this);
+    actionCollection()->addAction("forward", forward);
+  }
+  
+  KStandardAction::home(this, SLOT(index()), actionCollection());
+}
+
+void MainWindow::index()
+{
+  m_note = m_notebook->open("index");
+  if (m_mode == EditMode)
+  {
+    editMode();
+  }
+  else
+  {
+    displayMode();
+  }
 }
 
 void MainWindow::removeUnwantedActions()
@@ -168,7 +195,6 @@ void MainWindow::displayNote(NotePtr note)
 
 void MainWindow::noteChanged(const QString& path)
 {
-  kDebug() << path;
   m_note = m_notebook->openFromRendered(path);
   if (m_mode == EditMode)
     editMode();

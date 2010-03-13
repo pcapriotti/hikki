@@ -9,7 +9,8 @@ set(src main.cpp
         mainwindow.cpp
         note.cpp
         notebook.cpp
-        webkitpart.cpp)
+        webkitpart.cpp
+        proxyaction.cpp)
 kde4_add_executable(hikki ${src})
 
 target_link_libraries(hikki markdown ${KDE4_KDEUI_LIBS} kparts ktexteditor QtWebKit)

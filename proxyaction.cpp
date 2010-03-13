@@ -21,52 +21,21 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "proxyaction.h"
 
-#include <QWidget>
-#include <KParts/MainWindow>
-#include "notebook.h"
-#include "note.h"
-
-namespace KTextEditor { class View; }
-class WebKitPart;
-class QStackedWidget;
-class Notebook;
-
-class MainWindow : public KParts::MainWindow
+ProxyAction::ProxyAction(QAction* action, QObject* parent)
+: KAction(parent)
+, m_action(action)
 {
-Q_OBJECT
-  enum Mode
-  {
-    DisplayMode,
-    EditMode
-  };
+  setText(action->text());
+  setIcon(action->icon());
+  connect(this, SIGNAL(triggered()), m_action, SLOT(trigger()));
+  connect(m_action, SIGNAL(changed()), this, SLOT(update()));
+  update();
+}
 
-  void setupActions();
-  void removeUnwantedActions();
-
-  Notebook* m_notebook;
-  NotePtr m_note;
-  
-  QStackedWidget* m_stack;
-  KTextEditor::View* m_editor;
-  WebKitPart* m_browser;
-  
-  Mode m_mode;
-  
-  void refreshEditor();
-public:
-  MainWindow(const QString& base);
-  ~MainWindow();
-public slots:
-  void editMode();
-  void displayMode();
-  void index();
-  
-  void displayNote(NotePtr note);
-  void displayCurrentNote();
-  void noteChanged(const QString& path);
-};
-
-#endif // MAINWINDOW_H
+void ProxyAction::update()
+{
+  setEnabled(m_action->isEnabled());
+  setChecked(m_action->isChecked());
+}

@@ -21,52 +21,20 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef PROXY_ACTION_H
+#define PROXY_ACTION_H
 
-#include <QWidget>
-#include <KParts/MainWindow>
-#include "notebook.h"
-#include "note.h"
+#include <KAction>
 
-namespace KTextEditor { class View; }
-class WebKitPart;
-class QStackedWidget;
-class Notebook;
-
-class MainWindow : public KParts::MainWindow
+class ProxyAction : public KAction
 {
 Q_OBJECT
-  enum Mode
-  {
-    DisplayMode,
-    EditMode
-  };
-
-  void setupActions();
-  void removeUnwantedActions();
-
-  Notebook* m_notebook;
-  NotePtr m_note;
-  
-  QStackedWidget* m_stack;
-  KTextEditor::View* m_editor;
-  WebKitPart* m_browser;
-  
-  Mode m_mode;
-  
-  void refreshEditor();
+  QAction* m_action;
 public:
-  MainWindow(const QString& base);
-  ~MainWindow();
-public slots:
-  void editMode();
-  void displayMode();
-  void index();
+  ProxyAction(QAction* action, QObject* parent);
   
-  void displayNote(NotePtr note);
-  void displayCurrentNote();
-  void noteChanged(const QString& path);
+private slots:
+  void update();
 };
 
-#endif // MAINWINDOW_H
+#endif // PROXY_ACTION_H
