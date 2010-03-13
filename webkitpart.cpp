@@ -28,6 +28,7 @@
 #include <KDebug>
 #include <KRun>
 #include <KStandardDirs>
+#include <QAction>
 #include <QWebView>
 #include <QNetworkRequest>
 
@@ -59,9 +60,9 @@ bool WebKitPart::openUrl(const KUrl& url)
   return true;
 }
 
-bool WebKitPart::openNote(const QString& path)
+bool WebKitPart::openNote(NotePtr note)
 {
-  return openUrl(KUrl("hikki://note/" + path));
+  return openUrl(KUrl("hikki://note/" + note->name()));
 }
 
 bool WebKitPart::openFile()
@@ -72,6 +73,11 @@ bool WebKitPart::openFile()
 KUrl WebKitPart::url() const
 {
   return m_view->url();
+}
+
+void WebKitPart::refresh()
+{
+  m_view->pageAction(QWebPage::Reload)->trigger();
 }
 
 void WebKitPart::onUrlChanged(const QUrl& url)
@@ -120,7 +126,7 @@ QNetworkReply* AccessManager::createRequest(
   if (req.url().scheme() == "hikki") {
     if (req.url().host() == "note") {
       QString path = relativePath(req);
-      NotePtr note = m_notebook->openFromRendered(path);
+      NotePtr note = m_notebook->open(path);
       if (note->exists()) {
         QNetworkRequest r(note->rendered());
         QNetworkReply* reply =

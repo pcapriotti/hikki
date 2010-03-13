@@ -64,8 +64,7 @@ public slots:
   void displayMode();
   void index();
   
-  void displayNote(NotePtr note);
-  void displayCurrentNote();
+  void renderCurrentNote();
   void noteChanged(const QString& path);
 };
 

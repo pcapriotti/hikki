@@ -40,11 +40,13 @@ public:
   WebKitPart(QWidget* parent, Notebook* notebook);
   
   virtual bool openUrl(const KUrl& url);
-  virtual bool openNote(const QString& path);
+  virtual bool openNote(NotePtr note);
   virtual bool openFile();
   
   virtual KUrl url() const;
   QWebView* view();
+  
+  void refresh();
 private slots:
   void onUrlChanged(const QUrl& url);
 signals:

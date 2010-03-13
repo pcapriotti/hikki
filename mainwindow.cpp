@@ -56,8 +56,6 @@ MainWindow::MainWindow(const QString& base)
   setCentralWidget(m_stack);
   
   m_notebook = new Notebook(base);
-  m_note = m_notebook->index();
-  kDebug() << "note path" << m_note->path();
   
   Editor* editor = EditorChooser::editor();
   Document* doc = editor->createDocument(this);
@@ -81,6 +79,8 @@ MainWindow::MainWindow(const QString& base)
   setupGUI();
   removeUnwantedActions();
 
+  m_note = m_notebook->index();
+  m_browser->openNote(m_note);
   displayMode();
 }
 
@@ -129,14 +129,9 @@ void MainWindow::setupActions()
 void MainWindow::index()
 {
   m_note = m_notebook->open("index");
+  m_browser->openNote(m_note);
   if (m_mode == EditMode)
-  {
     editMode();
-  }
-  else
-  {
-    displayMode();
-  }
 }
 
 void MainWindow::removeUnwantedActions()
@@ -172,25 +167,28 @@ void MainWindow::refreshEditor()
 
 void MainWindow::displayMode()
 {
-  displayCurrentNote();
+  // the current note is already loaded in the browser at this point
+  
+  // save note
+  if (m_editor->document()->url().isValid())
+    m_editor->document()->save();
+  
+  // rerender and redisplay note
+  m_browser->refresh();
+  
+  // show browser
   m_stack->setCurrentWidget(m_browser->widget());
+  
+  // remove editor GUI
   guiFactory()->removeClient(m_editor);
+  
+  // update mode
   m_mode = DisplayMode;
 }
 
-void MainWindow::displayCurrentNote()
+void MainWindow::renderCurrentNote()
 {
-  kDebug() << m_note->name();
   Q_ASSERT(m_note);
-  if (m_editor->document()->url().isValid())
-    m_editor->document()->save();
-  displayNote(m_note);
-}
-
-void MainWindow::displayNote(NotePtr note)
-{
-  QString path = note->rendered();
-  m_browser->openNote(path);
 }
 
 void MainWindow::noteChanged(const QString& path)
