@@ -36,6 +36,7 @@ WebKitPart::WebKitPart(QWidget* parent, Notebook* notebook)
 {
   m_view = new QWebView(parent);
   m_view->setPage(new WebPage(this, notebook));
+  m_view->page()->settings()->setDefaultTextEncoding("utf-8");
   setWidget(m_view);
   
   QPalette palette = m_view->palette();
