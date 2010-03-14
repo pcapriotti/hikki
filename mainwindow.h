@@ -24,6 +24,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QList>
 #include <QWidget>
 #include <KParts/MainWindow>
 #include "notebook.h"
@@ -63,6 +64,7 @@ public slots:
   void editMode();
   void displayMode();
   void index();
+  void deleteNote();
   
   void renderCurrentNote();
   void noteChanged(const QString& path);

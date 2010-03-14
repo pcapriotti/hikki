@@ -48,6 +48,7 @@ public:
   QString notePath(const QString& note) const;
   QString saveRenderedNote(const QString& note,
                            const QString& content);
+  QString renderedNotePath(const QString& note);
 };
 
 #endif // NOTEBOOK_H

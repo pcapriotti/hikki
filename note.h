@@ -39,6 +39,7 @@ public:
   QString path() const;
   bool exists() const;
   QString name() const;
+  void remove();
 };
 
 #endif // NOTE_H

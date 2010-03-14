@@ -37,12 +37,10 @@ Notebook::Notebook(const QString& base)
   
   if (!m_base.exists())
     kError() << "Invalid notebook directory" << base;
-  kDebug() << "directory" << m_render_dir.name();
 }
 
 NotePtr Notebook::open(const QString& note)
 {
-  kDebug() << note;
   return NotePtr(new Note(note, this));
 }
 
@@ -60,16 +58,19 @@ NotePtr Notebook::openFromRendered(const QString& renderedFile)
 {
   QString rel = m_base.relativeFilePath(renderedFile);
   QString note = QFileInfo(rel).baseName();
-  kDebug() << note;
   return open(note);
+}
+
+QString Notebook::renderedNotePath(const QString& note)
+{
+  QString path = QFileInfo(m_render_dir.name(), note).absoluteFilePath();
+  return path + ".html";
 }
 
 QString Notebook::saveRenderedNote(const QString& note,
                                 const QString& content)
 {
-  kDebug() << note;
-  QString path = QFileInfo(m_render_dir.name(), note).absoluteFilePath();
-  path = path + ".html";
+  QString path = renderedNotePath(note);
   QFile file(path);
   if (file.open(QIODevice::WriteOnly)) {
     file.write(m_header.toUtf8());

@@ -108,3 +108,11 @@ QString Note::name() const
   return m_name;
 }
 
+void Note::remove()
+{
+  // remove note
+  QFile(path()).remove();
+  
+  // remove rendered
+  QFile(m_parent->renderedNotePath(m_name)).remove();
+}

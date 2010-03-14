@@ -25,10 +25,12 @@
 
 #include <QStackedWidget>
 #include <QWebView>
+#include <QWebHistory>
 #include <KAction>
 #include <KActionCollection>
 #include <QDebug>
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KTextEditor/EditorChooser>
 #include <KTextEditor/ConfigInterface>
 #include <KTextEditor/View>
@@ -124,6 +126,34 @@ void MainWindow::setupActions()
   }
   
   KStandardAction::home(this, SLOT(index()), actionCollection());
+  
+  {
+    KAction* deleteAction = new KAction(
+      KIcon("list-remove"),
+      i18n("&Delete note"),
+      this);
+    actionCollection()->addAction("delete_note", deleteAction);
+    connect(deleteAction, SIGNAL(triggered()),
+            this, SLOT(deleteNote()));
+  }
+}
+
+void MainWindow::deleteNote()
+{
+  if (m_note)
+  {
+    int resp = KMessageBox::warningYesNo(this,
+      i18n("Are you sure you want to delete note <em>%1</em>?",
+            m_note->name()),
+      i18n("Confirm delete"));
+    if (resp == KMessageBox::Yes)
+    {
+      if (m_editor->document()->url().isValid())
+        m_editor->document()->closeUrl();
+      m_note->remove();
+      m_browser->view()->page()->history()->back();
+    }
+  }
 }
 
 void MainWindow::index()

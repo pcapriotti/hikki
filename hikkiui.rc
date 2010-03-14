@@ -4,6 +4,7 @@
   <Menu name="file">
    <Action name="edit_mode"/>
    <Action name="display_mode"/>
+   <Action name="delete_note"/>
   </Menu>
   <Menu name="go">
    <Text>&amp;Go</Text>
@@ -24,5 +25,6 @@
   <Action name="go_home"/>
   <Action name="back"/>
   <Action name="forward"/>
+  <Action name="delete_note"/>
  </ToolBar>
 </kpartgui>
