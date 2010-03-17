@@ -2,12 +2,11 @@ body {
   font-family: sans-serif "Bitstream Vera Sans";
   line-height: 1.6em;
   padding: 0 1em 0 1em;
-  color: #ccc;
-  background-color: #333;
+  color: #333;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #bbb;
+  color: #444;
 }
 
 
@@ -15,7 +14,7 @@ h3, h2, h1 {
     padding: 0.2em 0 0.2em 0.5em;
     border-width: 1px 1px 1px 0.5em;
     border-style: solid;
-    border-color: #1a1a1a;
+    border-color: #2a638d;
 }
 
 h3 {
@@ -37,7 +36,7 @@ li {
 }
 
 a {
-  color: #8e8aFF;
+  color: #5E5AFF;
   font-weight: normal;
   text-decoration: underline;
 }
