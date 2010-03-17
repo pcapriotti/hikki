@@ -45,15 +45,7 @@ using namespace KTextEditor;
 MainWindow::MainWindow(const QString& base)
 : KParts::MainWindow(0,
   static_cast<Qt::WindowFlags>(KDE_DEFAULT_WINDOWFLAGS))
-{
-  
-    
-  QPalette palette = qApp->palette();
-  //palette.setBrush(QPalette::Base, Qt::white);
-  palette.setBrush(QPalette::Text, Qt::white);
-  palette.setBrush(QPalette::WindowText, Qt::white);
-  qApp->setPalette(palette);
-  
+{  
   m_stack = new QStackedWidget(this);
   setCentralWidget(m_stack);
   
