@@ -138,8 +138,7 @@ void MainWindow::deleteNote()
       i18n("Are you sure you want to delete note <em>%1</em>?",
             m_note->name()),
       i18n("Confirm delete"));
-    if (resp == KMessageBox::Yes)
-    {
+    if (resp == KMessageBox::Yes) {
       if (m_editor->document()->url().isValid())
         m_editor->document()->closeUrl();
       m_note->remove();

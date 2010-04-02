@@ -30,9 +30,13 @@ Notebook::Notebook(const QString& base)
 : m_base(base)
 {
   m_header = "<html><head>"
-        "<link rel=\"stylesheet\" href=\"hikki://data/example.css\""
+        "<link rel=\"stylesheet\" href=\"hikki://data/example.css\" "
         "type=\"text/css\"></link>"
-        "</head><body>";
+        "<link rel=\"stylesheet\" href=\"hikki://data/prettify.css\" "
+        "type=\"text/css\"></link>"
+        "<script type=\"text/javascript\" src=\"hikki://data/prettify.js\">"
+        "</script>"
+        "</head><body onload=\"prettyPrint()\">";
   m_footer = "</body></html>";
   
   if (!m_base.exists())

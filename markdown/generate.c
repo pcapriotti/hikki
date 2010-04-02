@@ -1470,7 +1470,7 @@ printcode(Line *t, MMIOT *f)
 	}
 	else blanks++;
 
-    Qstring("<pre><code>", f);
+    Qstring("<pre><code class=\"prettyprint\">", f);
     code(0, f);
     Qstring("</code></pre>", f);
 }
